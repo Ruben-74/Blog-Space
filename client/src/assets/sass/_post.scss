@@ -1,0 +1,258 @@
+// Variables de couleur
+$primary-color: #1a1a1a;
+$accent-color: #f05454;
+$link-color: #007bff;
+$background-color: #f0f0f0;
+$white-color: #fff;
+
+// Style général du conteneur du post
+.post-container-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // Espacement plus petit sur mobile
+  border-radius: 12px;
+  margin: 2rem auto; // Marges réduites sur mobile
+  width: 100%;
+  color: $primary-color;
+  line-height: 1.6;
+
+  .post-title {
+    font-size: 3rem; // Taille du titre plus petite sur mobile
+    color: $primary-color;
+    margin-bottom: 10px;
+    font-weight: 700;
+    border-bottom: 3px solid $accent-color;
+    padding-bottom: 10px;
+  }
+
+  .post-picture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Centrer horizontalement
+    align-items: center; // Centrer verticalement
+    width: 100%;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover; // Changer à 'cover' pour un remplissage complet du conteneur
+      border-radius: 12px;
+    }
+  }
+
+  .post-description {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1.4rem; // Taille de la description plus petite
+    color: $primary-color;
+    font-weight: 600;
+    font-family: "Josefin Sans";
+
+    span {
+      font-size: 1.8rem; // Taille plus petite pour les span
+      font-weight: 600;
+      color: $accent-color;
+    }
+  }
+
+  .post-date {
+    font-size: 1.4rem; // Taille de la date plus petite
+    font-family: "Josefin Sans";
+    color: $primary-color;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 15%;
+      height: 2px;
+      background-color: $accent-color;
+    }
+  }
+
+  .post-categories {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-transform: capitalize;
+    gap: 5px; // Moins d'écart entre les catégories
+
+    span {
+      display: inline-block;
+      background-color: $accent-color;
+      color: $white-color;
+      font-family: "Josefin Sans";
+      padding: 5px 12px; // Moins d'espacement pour les catégories
+      border-radius: 4px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+      transition: background-color 0.3s ease;
+    }
+
+    span:hover {
+      background-color: lighten($accent-color, 10%);
+    }
+  }
+
+  aside {
+    h2 {
+      font-weight: 700;
+      font-family: "Josefin Sans";
+      font-size: 1.8rem; // Taille d'en-tête plus petite
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    width: 100%;
+    gap: 0.5rem;
+    margin: 1rem auto;
+    border: transparent;
+    transition: border-color 0.3s ease;
+    font-weight: 600;
+    font-family: "Josefin Sans";
+
+    label {
+      display: block;
+      text-align: start;
+      font-size: 1.4rem; // Taille du texte réduite
+      font-weight: 500;
+      color: $primary-color;
+      margin-bottom: 10px; // Moins de marge sur mobile
+    }
+
+    textarea {
+      width: 100%;
+      padding: 8px;
+      font-size: 1.4rem; // Taille du texte réduite
+      border: transparent;
+      border-radius: 5px;
+      margin-bottom: 15px; // Moins d'espacement
+      box-sizing: border-box;
+      background-color: $background-color;
+      transition: outline 0.3s ease;
+
+      &:focus {
+        outline: 1px solid $accent-color;
+        border: transparent;
+      }
+    }
+
+    button {
+      display: block;
+      align-self: start;
+      color: $primary-color;
+      background-color: transparent;
+      font-weight: 600;
+      border: 1px solid $primary-color;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.4rem; // Taille du texte réduite
+      padding: 8px;
+      font-family: "Josefin Sans";
+      transition: color 0.5s ease;
+
+      &:hover {
+        background-color: $primary-color;
+        color: $white-color;
+      }
+
+      &:disabled {
+        color: gray;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    margin-right: 1rem; // Réduit l'écart sur mobile
+    position: relative;
+    gap: 0.8rem; // Espacement plus réduit
+  }
+
+  .avatar {
+    border-radius: 4px;
+    width: 35px; // Taille plus petite de l'avatar
+    height: 35px;
+    padding: 6px;
+    background-color: rgb(227, 231, 236);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover {
+      background-color: rgb(197, 205, 215);
+    }
+  }
+
+  .user-name {
+    font-size: 1rem; // Réduit la taille du nom d'utilisateur
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+
+  .loading {
+    text-align: center;
+    font-size: 1rem; // Taille réduite
+    color: $primary-color;
+    margin: 15px 0;
+    font-style: italic;
+  }
+}
+
+// Médias Queries pour les écrans plus grands (tablettes et plus)
+@media (min-width: 768px) {
+  .post-container {
+    max-width: 80%; // Largeur plus grande sur tablette
+
+    .post-title {
+      font-size: 3rem; // Titre plus grand
+    }
+
+    .post-description {
+      font-size: 1.6rem; // Augmenter la taille de la description
+    }
+
+    .post-date {
+      font-size: 1.6rem; // Taille de la date plus grande
+    }
+  }
+}
+
+// Médias Queries pour les écrans de bureau (desktops)
+@media (min-width: 1024px) {
+  .post-container {
+    max-width: 50%; // Largeur encore plus grande sur desktop
+
+    .post-title {
+      font-size: 3.5rem; // Agrandir le titre
+    }
+
+    .post-description {
+      font-size: 1.8rem; // Augmenter la taille de la description
+    }
+
+    .post-picture {
+      img {
+        width: 60%;
+      }
+    }
+
+    .post-date {
+      font-size: 1.8rem; // Augmenter la taille de la date
+    }
+  }
+}

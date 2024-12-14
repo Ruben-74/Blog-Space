@@ -1,0 +1,78 @@
+$footer-background-color: #333;
+$footer-text-color: #fff;
+$footer-link-color: #f05454;
+$footer-link-hover-color: #ff6b6b;
+
+.footer {
+  background-color: $footer-background-color;
+  font-family: "Josefin Sans", sans-serif;
+  color: $footer-text-color;
+  width: 100%;
+  text-align: center;
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+
+    .footer-left {
+      font-size: 1.4rem;
+    }
+
+    .footer-right {
+      .footer-link {
+        color: $footer-link-color;
+        text-decoration: none;
+        margin: 0 0.5rem;
+        font-size: 1.4rem;
+
+        &:hover {
+          color: $footer-link-hover-color;
+        }
+      }
+    }
+  }
+
+  // Tablet styles (min-width: 768px)
+  @media (min-width: 768px) {
+    .footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 2rem;
+
+      .footer-left {
+        font-size: 1.6rem;
+      }
+
+      .footer-right {
+        .footer-link {
+          font-size: 1.6rem;
+        }
+      }
+    }
+  }
+
+  // Desktop styles (min-width: 1024px)
+  @media (min-width: 1024px) {
+    padding: 2rem 0;
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+
+      .footer-left {
+        font-size: 1.8rem;
+      }
+
+      .footer-right {
+        .footer-link {
+          margin: 0 1rem;
+          font-size: 1.8rem;
+        }
+      }
+    }
+  }
+}

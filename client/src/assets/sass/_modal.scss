@@ -1,0 +1,271 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-form {
+  display: flex;
+  font-size: 1.5rem;
+  font-family: "Josefin Sans";
+  flex-direction: column;
+  gap: 2rem;
+  background-color: $white-color;
+  padding: 3rem;
+  border-radius: 8px;
+  width: 90%; // Par défaut pour les petits écrans
+  max-width: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  h2 {
+    font-weight: 700;
+    font-size: 2.5rem; // Taille ajustée pour mobile
+    font-family: "Josefin Sans";
+    text-align: center;
+  }
+
+  p {
+    font-size: 1.4rem;
+  }
+
+  .error-msg {
+    color: #e63946; /* Rouge pour l'erreur */
+    background-color: #f9d6d5; /* Fond clair pour l'erreur */
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .success-msg {
+    color: green;
+    background-color: #d4edda; /* Fond clair pour le succès */
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  &.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .message-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .message-details-table th,
+  .message-details-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .message-details-table th {
+    background-color: #f4f4f4;
+  }
+
+  .reply-button {
+    background-color: #4caf50; /* Couleur verte */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1.4rem; /* Taille réduite pour mobile */
+    transition: background-color 0.3s;
+  }
+
+  .reply-button:hover {
+    background-color: #45a049;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s;
+    width: 40px;
+    height: 40px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    font-family: "Josefin Sans";
+    background-color: $white-color;
+    gap: 0.5rem;
+    transition: border-color 0.3s ease;
+
+    label {
+      display: flex;
+      text-align: start;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: $primary-color;
+      margin-bottom: 15px;
+    }
+
+    select {
+      width: 50%;
+      padding: 8px;
+      border: transparent;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      background-color: $background-color;
+      font-size: 1.5rem;
+      color: $primary-color;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0px 0px 4px rgba($primary-color, 0.3);
+        outline: none;
+      }
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.6rem;
+      border: transparent;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      background-color: $background-color;
+      transition: outline 0.3s ease;
+
+      &:focus {
+        outline: 1px solid $accent-color;
+        border: transparent;
+      }
+    }
+  }
+
+  .submit-button {
+    color: $white-color;
+    background-color: $primary-color;
+    font-weight: 600;
+    padding: 15px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-self: center;
+    border: none;
+
+    &:hover {
+      background-color: $accent-color;
+    }
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    .delete-button {
+      background-color: #e63946; /* Rouge pour la suppression */
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      font-family: "Josefin Sans";
+      border-radius: 4px;
+      padding: 1rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #d62839; /* Couleur plus sombre au survol */
+      }
+    }
+
+    .btn-cancel {
+      background-color: #ccc; /* Couleur neutre pour annuler */
+      color: #333;
+      border: none;
+      font-size: 1.5rem;
+      font-family: "Josefin Sans";
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #bbb; /* Couleur plus sombre au survol */
+      }
+    }
+  }
+}
+
+/* Tablet - À partir de 768px */
+@media (min-width: 768px) {
+  .modal-form {
+    width: 80%; /* Plus large sur tablette */
+    h2 {
+      font-size: 3rem; /* Taille augmentée sur tablette */
+    }
+    p {
+      font-size: 1.5rem;
+    }
+    .reply-button {
+      padding: 10px 15px;
+      font-size: 1.6rem;
+    }
+
+    .close-button {
+      top: 1.5rem; /* Légèrement décalé sur tablette */
+      right: 1.5rem;
+    }
+  }
+}
+
+/* Desktop - À partir de 1024px */
+@media (min-width: 1024px) {
+  .modal-form {
+    width: 60%; /* Plus étroit sur desktop pour avoir un peu d'espace autour */
+    max-width: 800px;
+
+    h2 {
+      font-size: 3rem; /* Taille plus grande pour les écrans larges */
+    }
+
+    p {
+      font-size: 1.6rem;
+    }
+
+    .reply-button {
+      padding: 12px 20px; /* Bouton plus grand sur desktop */
+      font-size: 1.8rem;
+    }
+
+    .close-button {
+      top: 2rem;
+      right: 2rem;
+    }
+  }
+}

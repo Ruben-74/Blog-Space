@@ -1,0 +1,167 @@
+.comment {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  position: relative; // Needed for absolute positioning of the button
+
+  .delete-button {
+    display: none; // Initially hidden
+    position: absolute; // Position it absolutely within the comment
+    top: 10px; // Adjust positioning as needed
+    right: 10px; // Adjust positioning as needed
+    background: none; // No background
+    color: #f05454; // Delete button color
+    border: none; // No border
+    cursor: pointer; // Pointer cursor
+    padding: 0; // No padding
+    transition: transform 0.3s linear; // Smooth transition for scaling
+  }
+
+  &:hover {
+    .delete-button {
+      display: block; // Show button on comment hover
+      transform: scale(1.1); // Scale up the button slightly
+    }
+  }
+
+  .comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .comment-avatar {
+      width: 40px; // Adjust size as needed
+      height: 40px; // Adjust size as needed
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .comment-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+      .comment-user {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      .comment-date {
+        margin: 0;
+        color: gray;
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  .comment-message {
+    margin-top: 1rem; // Space between header and message
+    font-family: "Josefin Sans";
+  }
+
+  .menu-button {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end; /* Center the icon */
+
+    &:hover {
+      color: #f05454; /* Change color on hover */
+    }
+  }
+
+  .dropdown-menu {
+    display: flex;
+    position: absolute; /* Position relative to the parent */
+    top: 10px;
+    right: 40px; /* Align to the right */
+    background: white; /* Background color */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    z-index: 100; /* Ensure it appears above other elements */
+    padding: 10px; /* Padding for content */
+
+    button {
+      background: none; /* No background */
+      border: none; /* No border */
+      background-color: transparent; // Make the background transparent
+      color: #1a1a1a; // Color for the text
+      font-weight: 600;
+      font-family: "Josefin Sans";
+      border: none; // No border
+      padding: 5px; /* Padding for button */
+      cursor: pointer; /* Pointer cursor */
+      text-align: left; /* Align text to the left */
+      width: 100%; /* Full width */
+
+      &:hover {
+        color: #f05454; /* Highlight on hover */
+      }
+    }
+  }
+
+  .buttons-action {
+    display: flex;
+
+    justify-content: space-between;
+
+    .reply-button {
+      display: flex;
+      position: absolute; // Position the button absolutely
+      bottom: 10px; // Space from the bottom
+      right: 10px; // Space from the right
+      background-color: transparent; // Make the background transparent
+      color: #1a1a1a; // Color for the text
+      font-weight: 600;
+      font-family: "Josefin Sans";
+      border: none; // No border
+      cursor: pointer;
+      padding: 5px 10px;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #f05454; // Change color on hover
+      }
+    }
+
+    .reply-form {
+      textarea {
+        width: 100%;
+        height: 60px;
+        margin-bottom: 5px;
+        resize: none;
+        padding: 10px; // Add padding to create space for placeholder
+
+        &:focus {
+          outline: 1px solid $accent-color;
+          border: transparent;
+        }
+
+        &::placeholder {
+          color: gray; // Change this to your desired color
+          font-size: 1.4rem; // Adjust size if needed
+        }
+      }
+
+      button {
+        display: flex;
+        justify-content: space-between;
+        background-color: #1a1a1a;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f05454;
+        }
+      }
+    }
+  }
+
+  .replies {
+    margin-left: 20px; // Indentation for replies
+  }
+}

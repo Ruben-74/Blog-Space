@@ -1,0 +1,92 @@
+.search-bar {
+  display: flex;
+  width: 80%;
+  margin: 2.5rem auto;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+  form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 8px; /* Espacement entre les éléments */
+    border: none;
+  }
+
+  input {
+    flex: 1;
+    font-family: "Josefin Sans", sans-serif;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1.4rem; /* Taille de police adaptée aux petits écrans */
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      border-color: $accent-color;
+      box-shadow: 0 0 2px $accent-color;
+      outline: none;
+    }
+  }
+
+  button {
+    padding: 8px 12px;
+    background-color: $accent-color;
+    font-family: "Josefin Sans", sans-serif;
+    color: #fff;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 1.4rem; /* Taille de police adaptée aux petits écrans */
+    transition: background-color 0.3s, transform 0.2s;
+
+    &:hover {
+      background-color: darken($accent-color, 10%);
+    }
+
+    &:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .error-message {
+    color: $accent-color;
+    text-align: center;
+    margin-top: 10px;
+  }
+}
+
+/* Tablette (min-width: 768px) */
+@media (min-width: 768px) {
+  .search-bar {
+    width: 70%; /* La search-bar prend 80% de la largeur sur tablette */
+    margin: 25px auto;
+
+    input {
+      font-size: 1.6rem; /* Augmenter la taille de la police pour les tablettes */
+      padding: 1.2rem;
+    }
+
+    button {
+      font-size: 1.6rem;
+      padding: 10px 15px;
+    }
+  }
+}
+
+/* Bureau (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .search-bar {
+    width: 60%; /* La search-bar prend 60% de la largeur sur les grands écrans */
+    input {
+      font-size: 1.7rem; /* Taille de police encore plus grande pour les écrans de bureau */
+    }
+
+    button {
+      font-size: 1.8rem; /* Agrandir la taille du bouton sur les grands écrans */
+      padding: 12px 18px;
+    }
+  }
+}

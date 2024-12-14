@@ -1,0 +1,423 @@
+// Variables de couleur
+$primary-color: #1a1a1a; // Couleur principale
+$accent-color: #f05454; // Couleur d'accentuation pour les alertes ou actions importantes
+$link-color: #007bff; // Couleur des liens et des boutons
+$background-color: #f0f0f0; // Couleur de fond
+$white-color: #fff; // Blanc pour les textes et fonds
+$hover-color: #e0e0e0; // Couleur de survol pour les lignes du tableau
+
+// Styles globaux pour la section
+section {
+  border-radius: 8px; // Arrondir les coins de la section
+  font-family: "Josefine Sans", sans-serif;
+  max-width: 1400px; // Largeur maximale de la section
+  padding: 4rem; // Espacement interne
+  margin: auto; // Centrer la section
+  display: flex;
+  flex-direction: column; // Disposition en colonne
+  gap: 2rem; // Espacement entre les éléments
+
+  h1 {
+    color: $primary-color; // Couleur du titre
+    font-size: 3.5rem; // Taille de la police du titre
+    text-align: center; // Centrer le titre
+    margin-bottom: 20px; // Espacement en bas
+    font-weight: bold; // Mettre le texte en gras
+  }
+
+  .container-list {
+    display: flex;
+    justify-content: space-between; // Espacement entre le titre et le bouton
+    align-items: center; // Aligner verticalement
+    margin-bottom: 20px; // Espacement en bas
+
+    .btn-create {
+      background-color: $link-color; // Couleur de fond du bouton
+      color: $white-color; // Couleur du texte
+      border: none; // Pas de bordure
+      padding: 10px 20px; // Espacement interne
+      border-radius: 4px; // Coins arrondis
+      cursor: pointer; // Curseur en main
+      transition: background-color 0.3s ease; // Transition au survol
+      font-size: 16px; // Taille de la police
+      display: flex;
+      align-items: center; // Aligner le contenu
+      gap: 8px; // Espacement entre l'icône et le texte
+
+      &:hover {
+        background-color: darken($link-color, 10%); // Couleur de fond au survol
+      }
+
+      &:focus {
+        outline: 2px solid $link-color; // Contour au focus
+        outline-offset: 2px; // Décalage du contour
+      }
+    }
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(300px, 1fr)
+    ); // Grille responsive avec 1 à N colonnes
+    gap: 1.5rem; // Espacement entre les cartes
+    padding: 2rem 0; // Espacement en haut et en bas
+
+    .card {
+      background-color: #fff; // Fond de la carte
+      border-radius: 8px; // Coins arrondis
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Ombre portée légère
+      transition: transform 0.3s ease, box-shadow 0.3s ease; // Transition fluide
+
+      &:hover {
+        transform: translateY(-5px); // Élévation au survol
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); // Ombre plus marquée au survol
+      }
+
+      .card-header {
+        padding: 1rem; // Espacement interne
+        border-bottom: 1px solid #ddd; // Bordure sous le header
+        background-color: #1a1a1a;
+        display: flex;
+        justify-content: space-between; /* Espace entre les éléments */
+        align-items: center;
+        gap: 1rem;
+
+        .user-info {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .user-id {
+          color: #f05454; /* Accent color for the ID */
+          font-size: 1.4rem;
+          font-family: "Josefine Sans", sans-serif;
+          margin-top: 0.5rem; /* Adds space between the <h3> and <p> */
+        }
+
+        .user-avatar {
+          width: 50px; // Taille de l'avatar
+          height: 50px; // Hauteur de l'avatar
+          border-radius: 50%; // Rendre l'image ronde
+          border: 2px solid $accent-color;
+          object-fit: cover; // Garder l'aspect ratio sans déformation
+          margin-left: 20px; // Ajouter un petit espace entre l'avatar et les infos
+        }
+
+        h3 {
+          font-size: 1.5rem; // Taille du titre
+          color: $white-color;
+          font-weight: bold; // Gras
+          text-transform: capitalize;
+        }
+
+        p {
+          color: $accent-color;
+          font-size: 1.4rem; // Taille plus petite pour l'ID
+        }
+      }
+
+      .card-body {
+        padding: 1rem;
+        color: #333;
+        font-size: 1.4rem;
+        display: flex;
+        flex-direction: column; // Dispose les éléments en colonne
+        gap: 0.5rem;
+
+        .status-unread {
+          color: red;
+          font-weight: bold;
+        }
+
+        .status-read {
+          color: green;
+          font-weight: bold;
+        }
+
+        p {
+          margin: 0.5rem 0;
+          font-weight: normal;
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 0.3rem 0.8rem;
+          font-weight: bold;
+          color: white;
+          text-transform: capitalize;
+          align-self: flex-start; // Aligne le badge à droite (flexbox)
+          &.visible {
+            background-color: #28a745; // Vert pour 'Active'
+          }
+
+          &.pending {
+            background-color: #f0ad4e; // Orange
+            color: $primary-color;
+          }
+
+          &.rejected {
+            background-color: #d9534f; // Red
+          }
+
+          &.accepted {
+            background-color: #28a745; // Blue
+          }
+
+          &.hide {
+            background-color: $accent-color; // Bleu pour 'In Progress'
+          }
+        }
+
+        .btn-toggle-status {
+          background-color: green; // Couleur de fond par défaut
+          color: $white-color; // Couleur du texte
+          border: none; // Pas de bordure
+          padding: 10px 20px; // Espacement interne
+          border-radius: 4px; // Coins arrondis
+          width: 50%;
+          cursor: pointer; // Curseur en main
+          transition: background-color 0.3s ease; // Transition au survol
+
+          &:hover {
+            background-color: darken(green, 10%);
+          }
+
+          &.active {
+            background-color: green;
+          }
+
+          &.inactive {
+            background-color: $accent-color; // Couleur lorsque l'utilisateur est inactif
+          }
+        }
+      }
+
+      .card-footer {
+        display: flex;
+        justify-content: space-between; // Espacement entre les boutons
+        padding: 1rem; // Espacement interne
+        border-top: 1px solid #ddd; // Bordure au-dessus des boutons
+        align-items: center;
+
+        button {
+          background-color: transparent; // Fond transparent pour les boutons
+          border: 1px solid #ddd; // Bordure légère
+          padding: 0.5rem 1rem; // Espacement interne
+          border-radius: 4px; // Coins arrondis
+          cursor: pointer; // Curseur main
+          transition: background-color 0.3s ease, border-color 0.3s ease;
+
+          &:hover {
+            background-color: #f4f4f4; // Fond clair au survol
+            border-color: #ccc; // Bordure plus foncée
+          }
+        }
+
+        .btn-edit {
+          color: green; // Couleur pour le bouton d'édition
+          border-color: green;
+
+          &:hover {
+            background-color: darken(green, 10%);
+            color: white;
+          }
+        }
+
+        .btn-delete {
+          color: red; // Couleur pour le bouton de suppression
+          border-color: red;
+
+          &:hover {
+            background-color: darken(red, 10%);
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  /* Tablet (Min-width: 768px) */
+  @media (min-width: 768px) {
+    table {
+      width: 100%; // Largeur du tableau
+      border-collapse: collapse; // Fusionner les bordures
+      background-color: $white-color; // Couleur de fond du tableau
+      font-family: "Relaway", sans-serif; // Police du tableau
+
+      .status {
+        text-align: center;
+      }
+
+      thead {
+        background-color: $primary-color; // Couleur d'arrière-plan de l'en-tête
+        color: $white-color; // Couleur du texte de l'en-tête
+
+        th {
+          padding: 1.5rem; // Espacement interne des cellules d'en-tête
+          text-align: start; // Alignement du texte
+          font-weight: bold; // Mettre le texte en gras
+
+          &.buttons {
+            text-align: center; // Centrer le contenu des colonnes d'actions
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-child(odd) {
+            background-color: #fafafa; // Couleur de fond pour les lignes impaires
+          }
+
+          &:nth-child(even) {
+            background-color: #ffffff; // Couleur de fond pour les lignes paires
+          }
+
+          &:hover {
+            background-color: $hover-color; // Changer la couleur de fond au survol
+          }
+
+          td {
+            padding: 1.5rem; // Espacement interne des cellules
+            text-align: start; // Alignement du texte
+            border-bottom: 1px solid #ddd; // Bordure en bas des cellule
+
+            img {
+              width: 50px; // Largeur de l'image
+              height: 50px; // Hauteur de l'image
+              border-radius: 50%; // Arrondir l'image
+              object-fit: cover; // Garder le ratio de l'image
+            }
+
+            .status-unread {
+              color: black; // Couleur pour les messages non lus
+              font-weight: bold; // Mettre le texte en gras
+            }
+
+            .status-read {
+              color: black; // Couleur pour les messages déjà lus
+            }
+
+            .btn-toggle-status {
+              background-color: $accent-color; // Couleur de fond par défaut
+              color: $white-color; // Couleur du texte
+              border: none; // Pas de bordure
+              padding: 10px 20px; // Espacement interne
+              border-radius: 4px; // Coins arrondis
+              cursor: pointer; // Curseur en main
+              transition: background-color 0.3s ease; // Transition au survol
+
+              &:hover {
+                background-color: darken(
+                  $link-color,
+                  10%
+                ); // Couleur de fond au survol
+              }
+
+              &:focus {
+                outline: 2px solid $link-color; // Contour au focus
+                outline-offset: 2px; // Décalage du contour
+              }
+
+              &.active {
+                background-color: green; // Couleur lorsque l'utilisateur est actif
+              }
+
+              &.inactive {
+                background-color: $accent-color; // Couleur lorsque l'utilisateur est inactif
+              }
+            }
+
+            .button-group {
+              display: flex; // Disposition en ligne pour les boutons
+              justify-content: center; // Centrer les boutons
+              gap: 8px; // Espacement entre les boutons
+
+              .btn-edit,
+              .btn-delete {
+                background-color: transparent; // Fond transparent
+                color: $white-color; // Couleur du texte
+                border: none; // Pas de bordure
+                padding: 8px 12px; // Espacement interne
+                border-radius: 4px; // Coins arrondis
+                cursor: pointer; // Curseur en main
+                transition: background-color 0.3s ease; // Transition au survol
+                font-size: 14px; // Taille de la police
+                display: flex; // Disposition en ligne
+                align-items: center; // Aligner verticalement
+
+                &:focus {
+                  outline: 1px solid $white-color; // Contour au focus
+                }
+
+                i {
+                  font-size: 16px; // Ajuster la taille de l'icône
+                }
+
+                &:hover {
+                  background-color: lighten(
+                    #ddd,
+                    10%
+                  ); // Changer la couleur de fond au survol
+                }
+              }
+
+              .btn-edit {
+                background-color: green; // Couleur pour le bouton d'édition
+
+                &:hover {
+                  background-color: darken(green, 10%); // Couleur au survol
+                }
+              }
+
+              .btn-delete {
+                background-color: $accent-color; // Couleur pour le bouton de suppression
+
+                &:hover {
+                  background-color: darken(
+                    $accent-color,
+                    10%
+                  ); // Couleur au survol
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Desktop (Min-width: 1024px) */
+@media (min-width: 1024px) {
+  section {
+    padding: 4rem;
+  }
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  .btn-create {
+    font-size: 20px;
+  }
+
+  table {
+    th,
+    td {
+      padding: 2.5rem;
+    }
+
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  .button-group .btn-edit,
+  .button-group .btn-delete {
+    font-size: 16px;
+  }
+}

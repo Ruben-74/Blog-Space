@@ -1,0 +1,73 @@
+//  RESET
+// Variables pour les couleurs
+$primary-color: #1a1a1a;
+$accent-color: #f05454;
+$link-color: #007bff;
+$background-color: #f0f0f0;
+$white-color: #fff;
+
+html,
+body {
+  height: 100%; /* Garantir que le body occupe toute la hauteur */
+  margin: 0; /* Enlever la marge par défaut */
+}
+
+body {
+  font-family: "Relaway", sans-serif;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.app {
+  display: flex; /* Utiliser Flexbox pour disposer les éléments */
+  flex-direction: column; /* Disposition verticale */
+  min-height: 100vh; /* Garantir que l'application occupe toute la hauteur de la fenêtre */
+}
+
+main {
+  flex-grow: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.loader {
+  position: fixed; /* Changez 'absolute' en 'fixed' */
+  top: 50%; /* Centrer verticalement */
+  left: 50%; /* Centrer horizontalement */
+  transform: translate(-50%, -50%); /* Centrage exact */
+  width: 48px;
+  height: 48px;
+  border: 5px solid $accent-color; /* Couleur du bord */
+  border-bottom-color: transparent; /* Couleur transparente pour l'effet de rotation */
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  z-index: 1000; /* Assurez-vous qu'il est au-dessus d'autres éléments */
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; // Durée de l'animation
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; // Commence invisible
+  }
+  to {
+    opacity: 1; // Termine visible
+  }
+}
