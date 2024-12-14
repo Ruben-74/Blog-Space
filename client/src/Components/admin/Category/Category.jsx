@@ -71,7 +71,7 @@ function Category() {
 
   return (
     <section>
-      <h1>Liste des catégories</h1>
+      <h1 className="title-content">Liste des catégories</h1>
       <div className="container-list">
         <button
           className="btn-create"

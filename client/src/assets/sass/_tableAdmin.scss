@@ -17,12 +17,12 @@ section {
   flex-direction: column; // Disposition en colonne
   gap: 2rem; // Espacement entre les éléments
 
-  h1 {
+  .title-content {
     color: $primary-color; // Couleur du titre
     font-size: 3.5rem; // Taille de la police du titre
     text-align: center; // Centrer le titre
-    margin-bottom: 20px; // Espacement en bas
     font-weight: bold; // Mettre le texte en gras
+    margin-bottom: 2rem;
   }
 
   .container-list {

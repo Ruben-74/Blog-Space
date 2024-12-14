@@ -19,6 +19,7 @@ $white-color: #fff;
   .post-title {
     font-size: 3rem; // Taille du titre plus petite sur mobile
     color: $primary-color;
+    text-align: center;
     margin-bottom: 10px;
     font-weight: 700;
     border-bottom: 3px solid $accent-color;
@@ -44,20 +45,20 @@ $white-color: #fff;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    font-size: 1.4rem; // Taille de la description plus petite
+    font-size: 1.5rem; // Taille de la description plus petite
     color: $primary-color;
     font-weight: 600;
     font-family: "Josefin Sans";
 
     span {
-      font-size: 1.8rem; // Taille plus petite pour les span
+      font-size: 1.9rem; // Taille plus petite pour les span
       font-weight: 600;
       color: $accent-color;
     }
   }
 
   .post-date {
-    font-size: 1.4rem; // Taille de la date plus petite
+    font-size: 1.6rem; // Taille de la date plus petite
     font-family: "Josefin Sans";
     color: $primary-color;
     position: relative;
@@ -87,7 +88,7 @@ $white-color: #fff;
       font-family: "Josefin Sans";
       padding: 5px 12px; // Moins d'espacement pour les catégories
       border-radius: 4px;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 600;
       text-align: center;
       white-space: nowrap;

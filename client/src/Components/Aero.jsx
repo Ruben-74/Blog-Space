@@ -42,21 +42,11 @@ function Aero() {
     fetchPosts();
   }, []); // Exécute seulement lors du premier rendu
 
-  const handleSearch = (searchTerm) => {
-    // Filtrer les posts selon le terme de recherche
-    const filtered = posts.filter(
-      (post) => post.title.toLowerCase().includes(searchTerm.toLowerCase()) // Par exemple, filtrer par titre
-    );
-    setFilteredPosts(filtered); // Mettre à jour les posts filtrés
-  };
-
   return (
     <section className="posts-container">
-      <SearchBar onSearch={handleSearch} />{" "}
-      <div className="title-container">
-        <h1>Aeronautique</h1>
-      </div>
-      {/* Passez la fonction de recherche ici */}
+      <h1 className="title-container">
+        <span>A</span>eronautique
+      </h1>
       {loading && <Loading />} {/* Affiche le loader */}
       {error && <p className="error-message">{error}</p>}
       {!loading && !error && filteredPosts.length === 0 && (

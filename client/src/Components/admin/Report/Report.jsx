@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import ReportDetail from "./ReportDetail"; // Composant pour afficher les détails et mettre à jour un signalement
-import DeleteModal from "./Delete"; // Composant de confirmation de suppression
+import ReportDetail from "./ReportDetail";
+import DeleteModal from "./Delete";
 import { useDispatch, useSelector } from "react-redux";
-import { setMobile } from "../../../store/slicesRedux/view"; // Import de l'action setMobile
+import { setMobile } from "../../../store/slicesRedux/view";
 
 function Report() {
   const { isMobile } = useSelector((state) => state.view);
   const dispatch = useDispatch();
-  const [reports, setReports] = useState([]); // Liste des signalements
-  const [isUpdateModalToggle, setIsUpdateModalToggle] = useState(false); // État de la modal de mise à jour
-  const [isDeleteToggle, setIsDeleteToggle] = useState(false); // État de la modal de suppression
-  const [currentReport, setCurrentReport] = useState(null); // Signalement actuellement sélectionné
-  const [loading, setLoading] = useState(true); // État de chargement des données
-  const [error, setError] = useState(null); // Gestion des erreurs
+  const [reports, setReports] = useState([]);
+  const [isUpdateModalToggle, setIsUpdateModalToggle] = useState(false);
+  const [isDeleteToggle, setIsDeleteToggle] = useState(false);
+  const [currentReport, setCurrentReport] = useState(null);
+  const [error, setError] = useState(null);
 
   // Fonction pour récupérer les signalements depuis l'API
   const fetchReports = async () => {
@@ -22,14 +21,13 @@ function Report() {
 
       if (response.ok) {
         const data = await response.json();
-        setReports(data); // Mise à jour de l'état avec les signalements
+        setReports(data);
       } else {
         throw new Error("Échec de la récupération des signalements.");
       }
     } catch (err) {
-      setError(err.message); // Capturer l'erreur si elle survient
+      setError(err.message);
     } finally {
-      setLoading(false); // Fin du chargement
     }
   };
 
@@ -42,7 +40,7 @@ function Report() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Envoie les cookies si nécessaire
+        credentials: "include",
       }
     );
     if (response.ok) {
@@ -64,10 +62,9 @@ function Report() {
     };
   }, [dispatch]);
 
-  // Fonction pour gérer l'édition d'un signalement
   const handleEditClick = (report) => {
     setCurrentReport(report); // Sélectionner le signalement à éditer
-    setIsUpdateModalToggle(true); // Ouvrir la modal d'édition
+    setIsUpdateModalToggle(true);
   };
 
   // Fonction pour gérer la suppression d'un signalement
@@ -75,11 +72,6 @@ function Report() {
     setCurrentReport(report); // Sélectionner le signalement à supprimer
     setIsDeleteToggle(true); // Ouvrir la modal de suppression
   };
-
-  // Affichage de l'état de chargement ou des erreurs
-  if (loading) {
-    return <p>Chargement des signalements...</p>;
-  }
 
   if (error) {
     return <p>Erreur : {error}</p>;
@@ -120,12 +112,14 @@ function Report() {
               </div>
               <div className="card-footer">
                 <button
+                  aria-label="Modifier le signalement"
                   className="btn-edit"
                   onClick={() => handleEditClick(report)}
                 >
                   <FaEdit />
                 </button>
                 <button
+                  aria-label="Supprimer le signalement"
                   className="btn-delete"
                   onClick={() => handleDeleteClick(report)}
                 >

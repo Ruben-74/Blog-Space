@@ -41,19 +41,12 @@ function Automobile() {
     fetchPosts();
   }, []);
 
-  const handleSearch = (searchTerm) => {
-    const filtered = posts.filter((post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredPosts(filtered);
-  };
-
   return (
     <section className="posts-container">
-      <SearchBar onSearch={handleSearch} />
-      <div className="title-container">
-        <h1>Automobile</h1>
-      </div>
+      <h1 className="title-container">
+        <span>A</span>utomobile
+      </h1>
+
       {loading && <Loading />}
       {error && <p className="error-message">{error}</p>}
       {!loading && !error && filteredPosts.length === 0 && (

@@ -85,7 +85,7 @@ function Post() {
 
   return (
     <section>
-      <h1>Liste des Articles</h1>
+      <h1 className="title-content">Liste des Articles</h1>
       {error && <p className="error-message">{error}</p>}
       <div className="container-list">
         <button

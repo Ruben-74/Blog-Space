@@ -82,7 +82,7 @@ function Login() {
     <section className="form-container">
       <FaSpaceShuttle size={50} />
       <hr />
-      <h1>Welcome back to BlogSpace</h1>
+      <h1 className="title-form">Welcome back to BlogSpace</h1>
 
       {/* Div pour regrouper le paragraphe et le lien */}
       <div className="info-line">

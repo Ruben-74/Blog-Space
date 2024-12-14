@@ -9,5 +9,4 @@ export default (req, res, next) => {
   } else {
     res.status(401).json({ msg: "Unauthorized" });
   }
-  // if(req.session.user || req.session.user.role !== "admin") res.status(401).json({ msg: "Unauthorized" });
 };

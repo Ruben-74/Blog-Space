@@ -87,9 +87,8 @@ const update = async (req, res) => {
       id: commentId,
       message: message || comment.message,
       status: status || comment.status,
-      parent_id:
-        parent_id !== undefined ? parent_id : Number(comment.parent_id),
-      post_id: post_id !== undefined ? post_id : comment.post_id,
+      parent_id: parent_id || Number(comment.parent_id),
+      post_id: post_id || comment.post_id,
       user_id,
     };
 

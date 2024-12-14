@@ -8,6 +8,23 @@
   font-family: "Josefin Sans";
   opacity: 0;
   animation: fadeIn 0.5s forwards;
+
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    color: $primary-color; // Couleur du titre
+    font-size: 4rem; // Taille de la police du titre
+    text-align: center; // Centrer le titre
+    font-weight: bold; // Mettre le texte en gras
+
+    span {
+      font-size: 8rem; // Taille de police plus grande
+      color: $accent-color; // Couleur rouge
+      font-weight: bold;
+    }
+  }
 }
 
 .post-card {

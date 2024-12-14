@@ -121,7 +121,8 @@ function User() {
 
   return (
     <section>
-      <h1>Liste des utilisateurs</h1>
+      <h1 className="title-content">Listes des Utilisateurs</h1>
+
       <div className="container-list">
         <button
           className="btn-create"

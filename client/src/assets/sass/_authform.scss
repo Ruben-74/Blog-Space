@@ -15,6 +15,13 @@ $white-color: #fff;
   width: 100%;
   overflow-y: auto; // Permet le défilement si le formulaire est trop long
 
+  .title-form {
+    color: $primary-color; // Couleur du titre
+    font-size: 4rem; // Taille de la police du titre
+    text-align: center; // Centrer le titre
+    font-weight: bold; // Mettre le texte en gras
+  }
+
   hr {
     margin: 1rem;
     width: 50%;

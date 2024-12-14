@@ -40,9 +40,6 @@ const createReport = async (req, res) => {
 };
 
 const updateReportStatus = async (req, res) => {
-  console.log("Request Body:", req.body);
-  console.log("Request Params:", req.params);
-
   const { status } = req.body;
   const { reportId } = req.params;
 

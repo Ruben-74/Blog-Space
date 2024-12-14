@@ -71,7 +71,7 @@ function User() {
 
   return (
     <section>
-      <h1>Liste des commentaires</h1>
+      <h1 className="title-content">Liste des commentaires</h1>
       <div className="container-list">
         <button
           className="btn-create"

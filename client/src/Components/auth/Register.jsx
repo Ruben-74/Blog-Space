@@ -43,7 +43,7 @@ function Register() {
     <section className="form-container">
       <FaSpaceShuttle size={50} />
       <hr />
-      <h1>Try BlogSpace for Free</h1>
+      <h1 className="title-form">Try BlogSpace for Free</h1>
 
       {/* Div pour regrouper le paragraphe et le lien */}
       <div className="info-line">

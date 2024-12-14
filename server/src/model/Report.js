@@ -47,10 +47,10 @@ class Report {
     }
   }
 
-  static async updateStatus(reportId, newStatus) {
+  static async updateStatus(reportId, status) {
     const [reportResult] = await pool.execute(
       `UPDATE report SET status = ? WHERE id = ?`,
-      [newStatus, reportId]
+      [status, reportId]
     );
 
     if (reportResult.affectedRows === 0) {
@@ -58,7 +58,7 @@ class Report {
       throw new Error("Signalement introuvable.");
     }
 
-    if (newStatus === "validé") {
+    if (status === "accepted") {
       const [commentResult] = await pool.execute(
         `UPDATE comment 
          SET status = 'hide' 
@@ -70,16 +70,7 @@ class Report {
         throw new Error("Commentaire introuvable ou déjà masqué.");
       }
     }
-
-    return {
-      success: true,
-      reportId,
-      newStatus,
-      message:
-        newStatus === "validé"
-          ? "Statut mis à jour et commentaire masqué."
-          : "Statut mis à jour.",
-    };
+    return { reportId, status };
   }
 
   static async remove(id) {

@@ -64,7 +64,7 @@ function Contact() {
     <section className="form-container">
       <FaSpaceShuttle size={50} style={{ transform: "rotate(-90deg)" }} />
       <hr />
-      <h1>Contact Us ?</h1>
+      <h1 className="title-form">Contact Us ?</h1>
       <div className="info-line">
         <p>Have you a problem?</p>
       </div>
