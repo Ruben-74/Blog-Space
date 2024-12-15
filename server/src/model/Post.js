@@ -2,6 +2,8 @@ import pool from "../config/db.js";
 import path from "path";
 import fs from "fs/promises";
 
+const IMAGE_DIR = path.join(process.cwd(), "public/images");
+
 class Post {
   static async getAll() {
     try {
@@ -164,9 +166,8 @@ class Post {
         [postId, categoryId]
       );
 
-      // Ajouter l'image si elle existe
       if (image && image.url) {
-        const alt_img = image.alt_img || "";
+        const { alt_img } = image;
         await this.addImage(image.url, alt_img, postId);
       }
     } catch (error) {
@@ -176,31 +177,38 @@ class Post {
   }
 
   static async updateImage(url, alt_img, postId) {
-    const checkImageQuery = `SELECT id FROM image WHERE url = ? LIMIT 1`;
-    const [rows] = await pool.execute(checkImageQuery, [url]);
+    try {
+      const checkImageQuery = `SELECT id FROM image WHERE url = ? LIMIT 1`;
+      const [rows] = await pool.execute(checkImageQuery, [url]);
 
-    if (rows.length > 0) {
-      throw new Error("Une image avec ce nom existe déjà.");
-    }
+      if (rows.length > 0) {
+        throw new Error("Une image avec ce nom existe déjà.");
+      }
 
-    const imageQuery = `UPDATE image SET url = ?, alt_img = ? WHERE post_id = ?`;
-    const [result] = await pool.execute(imageQuery, [url, alt_img, postId]);
+      const imageQuery = `UPDATE image SET url = ?, alt_img = ? WHERE post_id = ?`;
+      const [result] = await pool.execute(imageQuery, [url, alt_img, postId]);
 
-    // Vérifier si l'image a été mise à jour
-    if (result.affectedRows === 0) {
-      throw new Error("Aucune image mise à jour. Vérifiez l'ID du post.");
+      if (result.affectedRows === 0) {
+        throw new Error("Aucune image mise à jour. Vérifiez l'ID du post.");
+      }
+
+      console.log(`Image mise à jour pour le post ${postId}`);
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour de l'image :", err.message);
+      throw new Error("Une erreur est survenue.");
     }
   }
 
-  static async update(datas) {
-    const { title, description, userId, postId, categoryId, image } = datas;
-
-    if (!title || !description || !userId || !categoryId) {
-      throw new Error("Tous les champs sont requis.");
-    }
-
+  static async update({
+    title,
+    description,
+    userId,
+    postId,
+    categoryId,
+    image,
+  }) {
     try {
-      // Mettre à jour les détails du post
+      // 1. Mettre à jour les informations du post
       const postQuery = `UPDATE post SET title = ?, description = ?, publish_date = NOW(), user_id = ? WHERE id = ?`;
       const [postResult] = await pool.execute(postQuery, [
         title,
@@ -209,70 +217,88 @@ class Post {
         postId,
       ]);
 
-      // Vérifier si le post a été mis à jour
       if (postResult.affectedRows === 0) {
-        throw new Error("Post non trouvé ou déjà mis à jour.");
+        throw new Error(`Post avec l'ID ${postId} introuvable.`);
       }
 
-      // Mettre à jour l'image si fournie
-      if (image && image.url) {
-        const alt_img = image.alt_img || "";
-        await this.updateImage(image.url, alt_img, postId);
-      }
+      console.log(`Post ID ${postId} mis à jour.`);
 
-      // Mettre à jour la catégorie du post
+      // 2. Mettre à jour la catégorie associée
       const categoryQuery = `UPDATE post_category SET category_id = ? WHERE post_id = ?`;
       const [categoryResult] = await pool.execute(categoryQuery, [
         categoryId,
         postId,
       ]);
 
-      // Vérifier si la catégorie a été mise à jour
-      if (categoryResult.affectedRows === 0) {
-        throw new Error("Aucune catégorie mise à jour. Vérifiez l'ID du post.");
+      console.log("Catégorie mise à jour", categoryResult);
+
+      // 3. Mettre à jour l'image
+      if (image?.url) {
+        const queryImage = `UPDATE image SET url = ?, alt_img = ? WHERE post_id = ?`;
+        const [imageResult] = await pool.execute(queryImage, [
+          image.url,
+          image.alt_img,
+          postId,
+        ]);
+
+        console.log("Mise à jour de l'image réussie", imageResult);
       }
     } catch (error) {
-      console.error("Erreur dans update:", error.message);
-      throw new Error("Erreur lors de la mise à jour du post.");
+      console.error("Erreur lors de la mise à jour :", error.message);
+      throw new Error("Une erreur interne est survenue.");
     }
   }
 
-  // Supprimer l'image associée à un post
   static async removeImage(postId) {
     try {
       const imageQuery = `SELECT url FROM image WHERE post_id = ?`;
       const [[image]] = await pool.execute(imageQuery, [postId]);
 
-      if (image) {
-        const imagePath = path.join("public/images", image.url);
-        await fs.access(imagePath);
-        await fs.unlink(imagePath); // Suppression de l'image sur le système de fichiers
+      if (image && image.url) {
+        const imagePath = path.join(IMAGE_DIR, image.url);
+
+        try {
+          await fs.unlink(imagePath);
+          console.log(`L'image ${imagePath} a été supprimée.`);
+        } catch (fileErr) {
+          console.error(
+            `Erreur lors de la suppression de l'image :`,
+            fileErr.message
+          );
+        }
       }
 
       const deleteImageQuery = `DELETE FROM image WHERE post_id = ?`;
       await pool.execute(deleteImageQuery, [postId]);
     } catch (error) {
-      console.error("Erreur lors de la suppression de l'image:", error.message);
-      throw new Error("Erreur lors de la suppression de l'image.");
+      console.error(
+        "Erreur lors de la suppression des images :",
+        error.message
+      );
+      throw new Error("Impossible de supprimer l'image.");
     }
   }
 
-  // Supprimer un post
+  // Méthode principale pour supprimer un post
   static async remove(id) {
     try {
-      await this.removeImage(id); // Supprimer d'abord l'image
-      await pool.execute("DELETE FROM post_category WHERE post_id = ?", [id]); // Supprimer la catégorie
+      await this.removeImage(id);
+
+      // Nettoyage des relations post_category
+      await pool.execute("DELETE FROM post_category WHERE post_id = ?", [id]);
+
       const [result] = await pool.execute("DELETE FROM post WHERE id = ?", [
         id,
       ]);
 
       if (result.affectedRows === 0) {
-        throw new Error("Post non trouvé ou déjà supprimé.");
+        throw new Error("Post introuvable ou déjà supprimé.");
       }
-      return result; // Retourne le résultat de la suppression
+
+      return result;
     } catch (error) {
-      console.error("Erreur dans remove:", error.message);
-      throw new Error("Erreur lors de la suppression du post.");
+      console.error("Erreur dans la suppression du post :", error.message);
+      throw new Error("Impossible de supprimer le post.");
     }
   }
 }
