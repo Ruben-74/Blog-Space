@@ -68,11 +68,6 @@ function Update({ setIsModalToggle, fetchComment, currentComment }) {
         fetchComment(); // Rafraîchir les commentaires
       } else {
         const errorMessage = await response.json();
-        alert(
-          `Erreur : ${
-            errorMessage.msg || "Échec de la modification du commentaire."
-          }`
-        );
         console.error(
           "Échec de la modification du commentaire :",
           errorMessage
@@ -93,7 +88,7 @@ function Update({ setIsModalToggle, fetchComment, currentComment }) {
         >
           <FaTimes />
         </button>
-        <h1>Modifier un commentaire (Admin)</h1>
+        <h2>Modifier un commentaire (Admin)</h2>
         <form onSubmit={submitComment}>
           <label htmlFor="message">Message</label>
           <textarea

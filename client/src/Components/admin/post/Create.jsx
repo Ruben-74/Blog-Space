@@ -90,8 +90,6 @@ function Create({ setIsModalToggle, fetchPost }) {
     postData.append("userId", userId);
     postData.append("image", image);
 
-    console.log("Objet postData:", postData);
-
     try {
       await state.createPost(postData);
       // Réinitialisez les états
@@ -102,8 +100,15 @@ function Create({ setIsModalToggle, fetchPost }) {
       setIsModalToggle(false);
       fetchPost(); // Récupérer les posts mis à jour
     } catch (err) {
-      console.error("Erreur lors de la création du post:", err);
-      setError("Erreur lors de la création du post. Veuillez réessayer.");
+      console.error(err.message);
+
+      if (err.message === "L'image existe déjà dans la base de données.") {
+        setError(
+          "Désolé, cette image existe déjà. Veuillez en choisir une autre."
+        );
+      } else {
+        setError("Une erreur est survenue. Veuillez réessayer.");
+      }
     }
   };
 

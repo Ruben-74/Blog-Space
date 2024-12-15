@@ -42,16 +42,16 @@ const PostProvider = ({ children }) => {
     }
   };
 
-  // Fonction pour mettre à jour un post
-  const updatePost = async (postData) => {
-    const postId = postData.get("id");
+  const updatePost = async (formData, id) => {
     try {
+      console.log("ID envoyé depuis le client :", id); // Debug
+      console.log("FormData :", formData);
       const response = await fetch(
-        `http://localhost:9000/api/v1/post/update/${postId}`,
+        `http://localhost:9000/api/v1/post/update/${id}`,
         {
           method: "PATCH",
           credentials: "include",
-          body: postData,
+          body: formData,
         }
       );
 
@@ -63,14 +63,15 @@ const PostProvider = ({ children }) => {
       }
 
       const updatedPost = await response.json();
-      console.log(updatedPost);
+      console.log("Post mis à jour :", updatedPost);
+
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === updatedPost.id ? updatedPost : post
         )
       );
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du post:", error.message);
+      console.error("Erreur côté client :", error.message);
     }
   };
 

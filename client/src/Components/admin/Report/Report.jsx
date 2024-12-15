@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import ReportDetail from "./ReportDetail";
 import DeleteModal from "./Delete";
+import CreateModal from "./Create";
 import { useDispatch, useSelector } from "react-redux";
 import { setMobile } from "../../../store/slicesRedux/view";
 
@@ -10,6 +11,7 @@ function Report() {
   const dispatch = useDispatch();
   const [reports, setReports] = useState([]);
   const [isUpdateModalToggle, setIsUpdateModalToggle] = useState(false);
+  const [isCreateModalToggle, setIsCreateModalToggle] = useState(false);
   const [isDeleteToggle, setIsDeleteToggle] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [error, setError] = useState(null);
@@ -80,6 +82,16 @@ function Report() {
   return (
     <section className="container">
       <h1 className="title-content">Liste des signalements</h1>
+
+      <div className="container-list">
+        <button
+          className="btn-create"
+          onClick={() => setIsCreateModalToggle(!isCreateModalToggle)}
+        >
+          <FaPlus />
+          Ajouter un signalement
+        </button>
+      </div>
 
       {isMobile ? (
         <div className="cards-container">
@@ -175,6 +187,12 @@ function Report() {
       )}
 
       {/* Afficher la modal d'édition si activée */}
+      {isCreateModalToggle && (
+        <CreateModal
+          setIsModalToggle={setIsCreateModalToggle}
+          fetchReports={fetchReports}
+        />
+      )}
       {isUpdateModalToggle && currentReport && (
         <ReportDetail
           setIsModalToggle={setIsUpdateModalToggle}

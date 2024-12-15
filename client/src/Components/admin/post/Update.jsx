@@ -4,16 +4,13 @@ import { FaTimes, FaUpload } from "react-icons/fa";
 import { PostContext } from "../../../store/post/PostContext";
 
 function Update({ setIsModalToggle, fetchPost, currentPost }) {
-  const state = useContext(PostContext);
-
   const [categories, setCategories] = useState([]);
   const [users, setUsers] = useState([]);
-
-  const [categoryId, setCategoryId] = useState("");
-  const [userId, setUserId] = useState("");
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const state = useContext(PostContext);
+  const [title, setTitle] = useState(currentPost?.title);
+  const [description, setDescription] = useState(currentPost?.description);
+  const [categoryId, setCategoryId] = useState(currentPost?.categoryId || 2);
+  const [userId, setUserId] = useState(currentPost?.userId);
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
 
@@ -24,8 +21,12 @@ function Update({ setIsModalToggle, fetchPost, currentPost }) {
       );
       const data = await response.json();
       setCategories(data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des catégories :", error);
+    } catch (err) {
+      console.error(
+        "Erreur lors de la récupération des catégories :",
+        err.message
+      );
+      setError("Impossible de récupérer les catégories.");
     }
   };
 
@@ -34,62 +35,82 @@ function Update({ setIsModalToggle, fetchPost, currentPost }) {
       const response = await fetch("http://localhost:9000/api/v1/user/list");
       const data = await response.json();
       setUsers(data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des utilisateurs :", error);
+    } catch (err) {
+      console.error(
+        "Erreur lors de la récupération des utilisateurs :",
+        err.message
+      );
+      setError("Impossible de récupérer les utilisateurs.");
     }
   };
 
   useEffect(() => {
-    if (currentPost) {
-      setTitle(currentPost.title || "");
-      setDescription(currentPost.description || "");
-      setCategoryId(currentPost.categoryId || "");
-      setUserId(currentPost.userId || "");
-    }
     fetchCategories();
     fetchUsers();
-  }, [currentPost]);
+  }, []);
 
+  // 📁 Validation des fichiers image
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       if (!file.type.startsWith("image/")) {
-        setError("Veuillez télécharger un fichier image valide.");
+        setError("Veuillez sélectionner un fichier image valide.");
         setImage(null);
         return;
       }
+
       if (file.size > 2 * 1024 * 1024) {
-        setError("Le fichier doit faire moins de 2 Mo.");
+        setError("L'image doit être inférieure à 2 Mo.");
         setImage(null);
         return;
       }
+
+      if (image && image.preview) {
+        URL.revokeObjectURL(image.preview);
+      }
+
+      const previewURL = URL.createObjectURL(file);
+      file.preview = previewURL;
+
       setImage(file);
-      setError(""); // Reset error if the file is valid
+      setError("");
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!currentPost?.id) {
+      setError("L'ID du post est introuvable.");
+      return;
+    }
+
+    if (!title || !description || !categoryId || !userId) {
+      setError("Tous les champs doivent être remplis.");
+      return;
+    }
+
     const postData = new FormData();
-    postData.append("id", currentPost.id);
     postData.append("title", title);
     postData.append("description", description);
     postData.append("categoryId", categoryId);
     postData.append("userId", userId);
+
     if (image) {
-      postData.append("image", image);
+      postData.append("image", image); // Upload de l'image
     }
 
     try {
-      console.log("Objet postData:", postData);
-      await state.updatePost(postData);
-      console.error("Mise a jour");
+      await state.updatePost(postData, currentPost.id);
+      // Réinitialisez les états
+      setTitle("");
+      setDescription("");
+      setCategoryId("");
+      setImage(null);
       setIsModalToggle(false);
-      fetchPost();
+      fetchPost(); // Récupérer les posts mis à jour
     } catch (err) {
-      console.error("Erreur lors de la mise à jour du post:", err);
-      setError("Erreur lors de la mise à jour du post. Veuillez réessayer.");
+      console.error(err.message);
     }
   };
 
@@ -99,67 +120,65 @@ function Update({ setIsModalToggle, fetchPost, currentPost }) {
         <button
           className="close-button"
           onClick={() => setIsModalToggle(false)}
-          aria-label="Fermer la modal"
         >
           <FaTimes />
         </button>
+
         <form onSubmit={handleSubmit} className="create-post-form">
           <h2>Modifier votre Post</h2>
+
+          {/* 📝 Titre */}
           <label>
-            Titre:
+            Titre :
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="Titre du post"
               required
             />
           </label>
+
+          {/* 📝 Description */}
           <label>
-            Description:
+            Description :
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              placeholder="Votre description"
               required
             />
           </label>
+
+          {/* 🔄 Catégorie */}
           <label>
-            Catégorie:
+            Catégorie :
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
               required
             >
-              {categories.length > 0 ? (
-                categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.label}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Aucune catégorie disponible
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.label}
                 </option>
-              )}
+              ))}
             </select>
           </label>
+
+          {/* 👤 Utilisateur */}
           <label>
-            Utilisateur:
+            Utilisateur :
             <select
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
               required
             >
-              {users.length > 0 ? (
-                users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.username}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Aucun utilisateur disponible
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.username}
                 </option>
-              )}
+              ))}
             </select>
           </label>
           <label className="file-upload-label">
@@ -174,22 +193,24 @@ function Update({ setIsModalToggle, fetchPost, currentPost }) {
           </label>
           {image ? (
             <div className="image-preview">
+              {/* Affiche l'aperçu de l'image locale */}
               <img
-                src={URL.createObjectURL(image)}
-                alt="Aperçu de l'image"
+                src={image.preview}
+                alt="Aperçu"
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+          ) : currentPost.image ? (
+            <div className="image-preview">
+              {/* Affiche l'image existante provenant du serveur */}
+              <img
+                src={`http://localhost:9000/images/${currentPost.image.url}`}
+                alt={currentPost.image.alt_img}
                 style={{ maxWidth: "200px" }}
               />
             </div>
           ) : (
-            currentPost.image && (
-              <div className="image-preview">
-                <img
-                  src={`http://localhost:9000/images/${currentPost.image.url}`} // Assurez-vous que l'URL est correcte ici
-                  alt="Image existante"
-                  style={{ maxWidth: "200px" }}
-                />
-              </div>
-            )
+            <p>Aucune image disponible</p>
           )}
 
           {error && <p className="error-message">{error}</p>}

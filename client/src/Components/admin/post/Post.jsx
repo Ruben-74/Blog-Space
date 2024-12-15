@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux"; // Import de useDispatch et useSelector
+import { useDispatch, useSelector } from "react-redux";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
-import { setMobile } from "../../../store/slicesRedux/view"; // Import de l'action setMobile
+import { setMobile } from "../../../store/slicesRedux/view";
 import CreateModal from "./Create";
 import UpdateModal from "./Update";
 import DeleteModal from "./Delete";
 import { PostContext } from "../../../store/post/PostContext";
 
 function Post() {
-  const { isMobile } = useSelector((state) => state.view); // Utilisation de Redux pour accéder à isMobile
-  const state = useContext(PostContext); // Si vous utilisez un contexte pour les posts
+  //Redux
+  const { isMobile } = useSelector((state) => state.view);
+
+  //Context
+  const state = useContext(PostContext);
   const dispatch = useDispatch();
   const [isCreateModalToggle, setIsCreateModalToggle] = useState(false);
   const [isUpdateModalToggle, setIsUpdateModalToggle] = useState(false);
@@ -61,14 +64,19 @@ function Post() {
         }
       );
 
+      const result = await response.json();
+
       if (response.ok) {
+        console.log(result.message);
         fetchPosts();
         setIsDeleteToggle(false);
       } else {
-        throw new Error("Erreur lors de la suppression du post.");
+        throw new Error(
+          result.error || "Une erreur est survenue lors de la suppression."
+        );
       }
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error("Erreur :", error.message);
       setError(error.message);
     }
   };
@@ -146,8 +154,8 @@ function Post() {
               </tr>
             </thead>
             <tbody>
-              {state.posts.map((post) => (
-                <tr key={post.id}>
+              {state.posts.map((post, index) => (
+                <tr key={index}>
                   <td>{post.id}</td>
                   <td>{post.title}</td>
                   <td>{post.label}</td>
